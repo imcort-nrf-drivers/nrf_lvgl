@@ -7,13 +7,15 @@ void my_flush_cb(lv_disp_drv_t * disp_drv, const lv_area_t * area, lv_color_t * 
     /*The most simple case (but also the slowest) to put all pixels to the screen one-by-one
      *`put_px` is just an example, it needs to implemented by you.*/
     
-    int32_t x, y;
-    for(y = area->y1; y <= area->y2; y++) {
-        for(x = area->x1; x <= area->x2; x++) {
-            ST7735_DrawPixel(x, y, *(uint16_t*)color_p);
-            color_p++;
-        }
-    }
+//    int32_t x, y;
+//    for(y = area->y1; y <= area->y2; y++) {
+//        for(x = area->x1; x <= area->x2; x++) {
+//            ST7735_DrawPixel(x, y, *(uint16_t*)color_p);
+//            color_p++;
+//        }
+//    }
+    
+    ST7735_DrawImage(area->x1, area->y1, area->x2, area->y2, (uint16_t*)color_p);
     
     /* IMPORTANT!!!
      * Inform the graphics library that you are ready with the flushing*/
@@ -33,7 +35,7 @@ void lv_begin(void)
     static lv_color_t buf_1[MY_DISP_HOR_RES * 10];
 
     /*Initialize `disp_buf` with the buffer(s). With only one buffer use NULL instead buf_2 */
-    lv_disp_draw_buf_init(&disp_buf, buf_1, NULL, MY_DISP_HOR_RES*10);
+    lv_disp_draw_buf_init(&disp_buf, buf_1, NULL, MY_DISP_HOR_RES * 10);
     
     static lv_disp_drv_t disp_drv;          /*A variable to hold the drivers. Must be static or global.*/
     lv_disp_drv_init(&disp_drv);            /*Basic initialization*/
